@@ -44,6 +44,14 @@ func main() {
 		}
 	}
 	fmt.Printf("append slice end, got: %v \n", appendTest)
+
+	appendTest = appendTest[:0]
+	for i := 1; i <= 3; i++ {
+		for j := 1; j <= 3; j++ {
+			appendTest = appendSliceBis(appendTest, i*j)
+		}
+	}
+	fmt.Printf("append slice end, got: %v \n", appendTest)
 }
 
 // slice pass as pointer
@@ -64,5 +72,12 @@ func arrayFunc(a [5]int) {
 
 func appendSlice(s []int, v int) {
 	s = append(s, v)
-	fmt.Printf("append slice in func: %v \n", s)
+	fmt.Printf("append slice in func: %v \t\t %p\n", s, &s[0])
+}
+
+func appendSliceBis(s []int, v int) []int {
+	s = append(s, v)
+	fmt.Printf("append slice in func: %v \t\t %p\n", s, &s[0])
+
+	return s
 }
