@@ -31,9 +31,19 @@ func main() {
 	sort.Ints(s)
 	fmt.Printf("after sort slice: %v \n", s)
 
+	fmt.Println()
+
 	// CAN NOT sort array!
 	// cannot use a (type [5]int) as type []int in argument to sort.Ints
 	//sort.Ints(a)
+
+	appendTest := make([]int, 0, 3*3)
+	for i := 1; i <= 3; i++ {
+		for j := 1; j <= 3; j++ {
+			appendSlice(appendTest, i*j)
+		}
+	}
+	fmt.Printf("append slice end, got: %v \n", appendTest)
 }
 
 // slice pass as pointer
@@ -50,4 +60,9 @@ func arrayFunc(a [5]int) {
 
 	fmt.Printf("a[0] pointer in func: %p \n", &a[0])
 	fmt.Printf("a[0] value: %d in func \n", a[0])
+}
+
+func appendSlice(s []int, v int) {
+	s = append(s, v)
+	fmt.Printf("append slice in func: %v \n", s)
 }
