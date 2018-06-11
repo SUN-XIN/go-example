@@ -105,7 +105,11 @@ func handlerCheckList(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	tmpl, err := template.New("titi").Parse(htmlCheckList)
+	funcMod := template.FuncMap{"mod": func(a, b int) int {
+		return a % b
+	}}
+
+	tmpl, err := template.New("titi").Funcs(funcMod).Parse(htmlCheckList)
 	if err != nil {
 		log.Printf("failed template Parse: %+v", err)
 		return
@@ -170,11 +174,19 @@ const (
     <ul>
     {{range .Data}} 
         {{if eq .Number $hide_num}} 
+            <li>equals to HideNumber->do not display</li>
             <li>Number: {{.Number}}</li>
         {{else}}
-            <li>{{.Name}}</li>
-            <li>{{.City}}</li> 
-            <li>Number: {{.Number}}</li>
+            {{$res := mod .Number 2}}
+            {{if eq $res 0}}
+                <li>paired number->display city</li>
+                <li>{{.City}}</li> 
+                <li>Number: {{.Number}}</li>
+            {{else}}
+                <li>unpaired number->display name</li>
+                <li>{{.Name}}</li> 
+                <li>Number: {{.Number}}</li>
+            {{end}}
         {{end}}
         <br/>    
     {{end}}
