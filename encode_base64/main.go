@@ -9,10 +9,8 @@ import (
 )
 
 const (
-	IMG_INPUT_PATH  = "game.png"
-	IMG_OUTPUT_PATH = "output.html"
-
-	Prefix = "data:image/png;base64,"
+	IMG_INPUT_PATH       = "game.png"
+	IMG_OUTPUT_HTML_PATH = "output.html"
 )
 
 func main() {
@@ -25,17 +23,17 @@ func main() {
 	fmt.Println("image to base64 string:")
 	fmt.Println(imgBase64Str)
 
-	err = base64ToImgPng(imgBase64Str, IMG_OUTPUT_PATH)
+	err = base64ToHTMLPng(imgBase64Str, IMG_OUTPUT_HTML_PATH)
 	if err != nil {
 		log.Printf("Failed base64ToImg: %+v", err)
 		return
 	}
 	fmt.Println()
-	fmt.Println("base64 string to string -> ok")
+	fmt.Println("base64 string to html -> ok")
 }
 
 // write to into a file (display in html)
-func base64ToImgPng(base64Str, outputPath string) error {
+func base64ToHTMLPng(base64Str, outputPath string) error {
 	f, err := os.Create(outputPath)
 	if err != nil {
 		return fmt.Errorf("Failed Create %s: %+v", outputPath, err)
@@ -95,9 +93,6 @@ func imgToBase64(intputPath string) (string, error) {
 	// read file content into buffer
 	fReader := bufio.NewReader(imgFile)
 	fReader.Read(buf)
-
-	// if you create a new image instead of loading from file, encode the image to buffer instead with png.Encode()
-	// png.Encode(&buf, image)
 
 	// convert the buffer bytes to base64 string - use buf.Bytes() for new image
 	imgBase64Str := base64.StdEncoding.EncodeToString(buf)
