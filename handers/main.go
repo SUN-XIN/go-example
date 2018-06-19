@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +11,26 @@ import (
 func handlerSimple(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	fmt.Fprintf(w, "Hello %s", name)
+}
+
+type Person struct {
+	Name string `json:"name"`
+	Age  int8   `json:"age"`
+	City string `json:"city"`
+}
+
+// ex: curl -H "Content-Type: application/json" -X POST -d '{"name":"toto","age":10,"city":"paris"}' "http://localhost:8080/with_body"
+func handlerWithBody(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var p Person
+	err := json.NewDecoder(r.Body).Decode(&p)
+	if err != nil {
+		log.Printf("Failed Decode body json: %+v", err)
+		return
+	}
+
+	fmt.Fprintf(w, "%s is %d years old, and comes from %s", p.Name, p.Age, p.City)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +81,7 @@ func handlerWithVar(s Setting) http.Handler {
 
 func main() {
 	http.HandleFunc("/simple", handlerSimple)
+	http.HandleFunc("/with_body", handlerWithBody)
 	http.Handle("/impl", myHandler(handlerImpl))
 
 	s := Setting{
