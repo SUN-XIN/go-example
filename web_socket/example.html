@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+   <meta charset="utf-8">
+   <title>Test web socket</title>
+    
+      <script type="text/javascript">
+         function WebSocketTest()
+         {
+            if ("WebSocket" in window)
+            {
+               alert("WebSocket ok!");
+               
+               // open web socket
+               var ws = new WebSocket("ws://localhost:8081/testws?key=123"); 
+                
+               ws.onopen = function()
+               {
+                  // Web Socket Conn ok -> send msg
+                  ws.send('{"name":"toto","age":10}');
+                 
+                  alert("sending...");
+               };
+                
+               ws.onmessage = function (evt) 
+               { 
+                  var received_msg = evt.data;
+                  //alert("msg receive..."+received_msg);
+                  var arrayOfStrings = received_msg.split(",");
+                  var node = document.createElement("TR");
+                  for(var i= 0; i < arrayOfStrings.length; i++) {
+                    td = document.createElement("td"); 
+                    td.innerHTML = arrayOfStrings[i]; 
+                    node.appendChild(td);
+                    document.getElementById("res").appendChild(node);
+                  }
+               };
+                
+               //ws.onclose = function()
+               //{ 
+                  // close websocket
+                  //alert("WebSocket is closing..."); 
+               //};
+            }
+            
+            else
+            {
+               // Not support WebSocket
+               alert("WebSocket not ok!");
+            }
+         }
+      </script>
+        
+   </head>
+   <body>
+   
+      <div id="sse">
+         <a href="javascript:WebSocketTest()">run WebSocket</a>
+      </div>
+      
+      <div>
+      <table id="res" border="1">
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>ID</th> 
+        </tr>
+      </table>
+    </div>
+   </body>
+</html>
