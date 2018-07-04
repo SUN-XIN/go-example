@@ -61,6 +61,18 @@ func main() {
 	} else {
 		log.Printf("Pass a pointer into function -> changed")
 	}
+
+	// Test with copy pointer in function
+	val := &Val{
+		Vint:    1,
+		Vstring: "a",
+	}
+	updateWithCopy(val, -1, "zzz")
+	if val.Vint > 0 {
+		log.Printf("Pass a pointer into function and then copy in function -> no changed")
+	} else {
+		log.Printf("Pass a pointer into function and then copy in function -> changed")
+	}
 }
 
 func updateMap(m map[int]bool) {
@@ -87,4 +99,16 @@ func updatePointerArray(a [3]*int) {
 
 func updatePointer(a *[3]int) {
 	a[0] = -1
+}
+
+func updateWithCopy(v *Val, newInt int, newString string) {
+	v = &Val{
+		Vint:    newInt,
+		Vstring: newString,
+	}
+}
+
+type Val struct {
+	Vint    int
+	Vstring string
 }
