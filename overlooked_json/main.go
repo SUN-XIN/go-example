@@ -79,6 +79,13 @@ func main() {
 	err = json.Unmarshal(b, tataPointer)
 	if err != nil {
 		log.Printf("Failed Unmarshal: %+v", err)
+		//return
+	}
+
+	tataPointer = &Tata{}
+	err = json.Unmarshal(b, tataPointer)
+	if err != nil {
+		log.Printf("Failed Unmarshal: %+v", err)
 		return
 	}
 }
