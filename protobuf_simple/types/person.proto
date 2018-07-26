@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package types;
+ 
+//Location类型
+//枚举类型第一个字段必须为0
+enum LocationType {
+    CITY = 0;
+    COUNTRY = 1;
+    ZIP = 2;
+}
+ 
+//Location
+message Location {
+    LocationType type = 1;
+    string name = 2;
+}
+ 
+//人
+message Person {
+    //后面的数字表示标识号
+    string name = 1;
+
+    int32 age = 2;
+
+    //repeated表示可重复
+    //可以有多个Location
+    repeated Location locations = 3;
+}
+ 
+ 
