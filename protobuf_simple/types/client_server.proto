@@ -1,0 +1,27 @@
+syntax = "proto3";
+ 
+package types;
+ 
+// The Sum service definition.
+service Sum {
+  rpc Sum (SumRequest) returns (SumReply) {}
+}
+ 
+// The request message
+message SumRequest {
+  int32 valInt1 = 1;
+  int32 valInt2 = 2;
+
+  string valString1 = 3;
+  string valString2 = 4;
+
+  float valFloat1 = 5;
+  float valFloat2 = 6;
+}
+ 
+// The response message
+message SumReply {
+  int32 resInt = 1;
+  string resString = 2;
+  float resFloat = 3;
+}
