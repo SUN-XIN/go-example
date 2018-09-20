@@ -5,5 +5,5 @@ package main
 import "log"
 
 func DisplayVersion() {
-	log.Printf("Compile with env go1.8")
+	log.Printf("Compile with env go1.8 ONWARD")
 }
