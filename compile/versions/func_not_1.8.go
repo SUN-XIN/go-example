@@ -1,0 +1,9 @@
+// +build !go1.8
+
+package main
+
+import "log"
+
+func DisplayVersion() {
+	log.Printf("Compile with env NO-go1.8")
+}
